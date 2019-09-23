@@ -103,6 +103,8 @@ echo -e "Deleted temp folder"
 
 wget -O - https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/install.sh | bash
 
+echo "################################################################"
+echo 
 echo -e "\e[32mCompleted FXServer Setup!\e[39m"
 echo
 echo -e "Instructions to start server"
@@ -110,5 +112,4 @@ echo "1. 'cd $HOME/fivem/server-data'"
 echo "2. 'Edit serve.cfg'"
 echo "3. 'bash $HOME/fivem/server/run.sh +exec server.cfg'"
 echo
-echo "Enjoy!"
-echo
+echo "################################################################"
