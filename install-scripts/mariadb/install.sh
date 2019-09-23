@@ -36,10 +36,10 @@ DatabaseCreation() {
 		then
 			rm -r /tmp/create-database.sh
 		fi
-		bash <(wget -P /tmp -qO- https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD --rootpass=$ROOT_PASSWORD)
-		rm -r /tmp/create-database.sh
-  
-    
+		
+		#DOWNLOAD FILE AND EXECUTE
+  		#./tmp/create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD --rootpass=$ROOT_PASSWORD
+       
 	else
 		echo -e "\e[32mSkiping Database creation\e[39m"
 		echo -e "\e[32mMysql Root Password: $ROOT_PASSWORD\e[39m"
