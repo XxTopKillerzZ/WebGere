@@ -31,14 +31,19 @@ DatabaseCreation() {
 			DATABASE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
 			echo -e "\e[32msuccessfully Generated password...\e[39m"
 		fi
-    		create_file="/tmp/create-database.sh"
-		if [ -f "$create_file" ]
-		then
+		
+    		#create_file="/tmp/create-database.sh"
+		#if [ -f "$create_file" ]
+		#then
 			rm -r /tmp/create-database.sh
-		fi
+		#fi
 		
 		#DOWNLOAD FILE AND EXECUTE
   		#./tmp/create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD --rootpass=$ROOT_PASSWORD
+       
+       
+       		#NEED TEST
+		curl -s https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/create-database.sh -o create-database.sh && sh create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD --rootpass=$ROOT_PASSWORD && rm -f create-database.sh
        
 	else
 		echo -e "\e[32mSkiping Database creation\e[39m"
