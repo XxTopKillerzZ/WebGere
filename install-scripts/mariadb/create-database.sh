@@ -131,17 +131,7 @@ function _printPoweredBy()
 {
     cat <<"EOF"
 
-Powered By:
-   __  ___              ___               __
-  /  |/  /__ ____ ____ / _ \___ __ ______/ /  ___
- / /|_/ / _ `/ _ `/ -_) ___(_-</ // / __/ _ \/ _ \
-/_/  /_/\_,_/\_, /\__/_/  /___/\_, /\__/_//_/\___/
-            /___/             /___/
 
- >> Store: http://www.magepsycho.com
- >> Blog: http://www.blog.magepsycho.com
-
-################################################################
 EOF
 }
 ################################################################################
@@ -161,6 +151,7 @@ Version $VERSION
 
     Options:
         -h, --host        MySQL Host
+        -rp, --rootpass   MySQL Root Password
         -d, --database    MySQL Database
         -u, --user        MySQL User
         -p, --pass        MySQL Password (If empty, auto-generated)
@@ -183,6 +174,9 @@ function processArgs()
         case $arg in
             -h=*|--host=*)
                 DB_HOST="${arg#*=}"
+            ;;
+            -rp=*|--rootpass=*)
+                rootPassword="${arg#*=}"
             ;;
             -d=*|--database=*)
                 DB_NAME="${arg#*=}"
@@ -218,10 +212,15 @@ function createMysqlDbUser()
     if [ -f /root/.my.cnf ]; then
         $BIN_MYSQL -e "${SQL1}${SQL2}${SQL3}${SQL4}"
     else
-        # If /root/.my.cnf doesn't exist then it'll ask for root password
-        _arrow "Please enter root user MySQL password!"
-        read rootPassword
-        $BIN_MYSQL -h $DB_HOST -u root -p${rootPassword} -e "${SQL1}${SQL2}${SQL3}${SQL4}"
+    else
+        if [ -z "$ROOT_PASSWORD" ]
+            # If /root/.my.cnf doesn't exist then it'll ask for root password
+            _arrow "Please enter root user MySQL password!"
+            read rootPassword
+            $BIN_MYSQL -h $DB_HOST -u root -p${rootPassword} -e "${SQL1}${SQL2}${SQL3}${SQL4}"
+        else
+            $BIN_MYSQL -h $DB_HOST -u root -p${rootPassword} -e "${SQL1}${SQL2}${SQL3}${SQL4}"
+        fi
     fi
 }
 
@@ -235,6 +234,7 @@ function printSuccessMessage()
     echo " >> Database  : ${DB_NAME}"
     echo " >> User      : ${DB_USER}"
     echo " >> Pass      : ${DB_PASS}"
+    echo " >> Mysql Root Pass      : ${rootPassword}"
     echo ""
     echo "################################################################"
     _printPoweredBy
