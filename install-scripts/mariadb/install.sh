@@ -11,9 +11,9 @@ echo
 if command -v mysql >/dev/null 2>&1 ; then
     echo -e "\e[32mMysql is already Installed...\e[39m"
 	echo "version: $(mysql --version)"
-	goto database_asking:
+	Database Creation
 else
-    echo -e "\e[32mInstalling Mysql...\e[39m"
+    	echo -e "\e[32mInstalling Mysql...\e[39m"
 	
 	# default version
 	MARIADB_VERSION='10.1'
@@ -53,9 +53,13 @@ else
 	# setting the mysql bind-address to allow connections from everywhere
 	sed -i "s/bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
 	
-	database_asking:
+	Database Creation
 	
-	read -p "Do you want to create a database? " -n 1 -r
+fi
+
+
+Database Creation() {
+    	read -p "Do you want to create a database? " -n 1 -r
 	echo    # (optional) move to a new line
 	if [[ $REPLY =~ ^[Yy]$ ]]
 	then
@@ -92,5 +96,4 @@ else
 		echo -e "\e[32mSkiping Database creation\e[39m"
 		echo -e "\e[32mMysql Root Password: $ROOT_PASSWORD\e[39m"
 	fi
-	
-fi
+}
