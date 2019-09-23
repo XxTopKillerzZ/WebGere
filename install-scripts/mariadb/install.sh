@@ -73,17 +73,10 @@ then
     
     wget https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/create-database.sh
     chmod a+x ./create-database.sh
-    ./create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD
-    
-    #Credentials
-    echo -e "\e[32mDatabase User: $DATABASE_USER...\e[39m"
-    echo -e "\e[32mDatabase Password: $DATABASE_PASSWORD...\e[39m"
-    echo -e "\e[32mDatabase Name: $DATABASE_NAME...\e[39m"
+    ./create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD --rootpass=$ROOT_PASSWORD
+  
     
 else
     echo -e "\e[32mSkiping Database creation\e[39m"
-fi
-
-echo -e "\e[32mMysql Password: $ROOT_PASSWORD...\e[39m"
-
+    echo -e "\e[32mMysql Root Password: $ROOT_PASSWORD\e[39m"
 fi
