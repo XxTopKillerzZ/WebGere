@@ -14,7 +14,7 @@ MARIADB_VERSION='10.1'
 
 apt-get update
 
-apt-get install software-properties-common
+apt-get install -y software-properties-common
 
 # Import repo key
 sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
@@ -30,7 +30,7 @@ read ROOT_PASSWORD
 if [ -z "$ROOT_PASSWORD" ]
 then
       echo -e "\e[32mGenerating Password\e[39m"
-      ROOT_PASSWORD="date +%s | sha256sum | base64 | head -c 15 ; echo"
+      ROOT_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
       echo -e "\e[32mUsing $ROOT_PASSWORD...\e[39m"
 else
       echo -e "\e[32mUsing $ROOT_PASSWORD...\e[39m"
@@ -71,7 +71,7 @@ then
     if [ -z "$DATABASE_PASSWORD" ]
     then
       echo -e "\e[32mGenerating Password\e[39m"
-      DATABASE_PASSWORD="date +%s | sha256sum | base64 | head -c 15 ; echo"
+      DATABASE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
       echo -e "\e[32mUsing $DATABASE_PASSWORD...\e[39m"
     else
       echo -e "\e[32mUsing $DATABASE_PASSWORD...\e[39m"
