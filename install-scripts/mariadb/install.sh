@@ -11,6 +11,7 @@ echo
 if command -v mysql >/dev/null 2>&1 ; then
     echo -e "\e[32mMysql is already Installed...\e[39m"
 	echo "version: $(mysql --version)"
+	goto database_asking:
 else
     echo -e "\e[32mInstalling Mysql...\e[39m"
 	
@@ -51,7 +52,9 @@ else
 	# enable remote access
 	# setting the mysql bind-address to allow connections from everywhere
 	sed -i "s/bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
-
+	
+	database_asking:
+	
 	read -p "Do you want to create a database? " -n 1 -r
 	echo    # (optional) move to a new line
 	if [[ $REPLY =~ ^[Yy]$ ]]
