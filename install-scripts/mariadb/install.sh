@@ -31,9 +31,7 @@ if [ -z "$ROOT_PASSWORD" ]
 then
       echo -e "\e[32mGenerating Password\e[39m"
       ROOT_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
-      echo -e "\e[32msuccessfully Generated password...\e[39m"
-else
-     
+      echo -e "\e[32msuccessfully Generated password...\e[39m" 
 fi
 
 # Install MariaDB without password prompt
@@ -70,8 +68,6 @@ then
       echo -e "\e[32mGenerating Password\e[39m"
       DATABASE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
       echo -e "\e[32msuccessfully Generated password...\e[39m"
-    else
-      
     fi
     
     
