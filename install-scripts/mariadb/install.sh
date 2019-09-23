@@ -75,9 +75,9 @@ then
     fi
     
     
-    
-    
-    
+    wget https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/create-database.sh
+    chmod a+x ./create-database.sh
+    ./create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD
     
     #Credentials
     echo -e "\e[32mDatabase User: $DATABASE_USER...\e[39m"
