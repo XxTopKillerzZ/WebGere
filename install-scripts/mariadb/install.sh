@@ -74,10 +74,15 @@ else
 			DATABASE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
 			echo -e "\e[32msuccessfully Generated password...\e[39m"
 		fi
-    
-		wget https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/create-database.sh
-		chmod a+x ./create-database.sh
-		./create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD --rootpass=$ROOT_PASSWORD
+    		create_file="/tmp/create-database.sh"
+		if [ -f "$create_file" ]
+		then
+			rm -r ./tmp/create-database.sh
+		fi
+		wget -P /tmp https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/create-database.sh
+		chmod a+x ./tmp/create-database.sh
+		./tmp/create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD --rootpass=$ROOT_PASSWORD
+		rm -r ./tmp/create-database.sh
   
     
 	else
