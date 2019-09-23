@@ -1,8 +1,13 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-echo ">>> Installing MariaDB"
+echo -e "\e[32mAutomatic MariaDB Setup Script for Ubuntu 18.04 LTS...\e[39m"
+echo
+echo -e "\e[32mAuthor: WebGere\e[39m"
+echo -e "\e[32mWebsite: https://webgere.pt\e[39m"
+echo
+echo -e "\e[32mCurrent Version: v0.1\e[39m"
+echo
 
-[[ -z $1 ]] && { echo "!!! MariaDB root password not set. Check the Vagrant file."; exit 1; }
 
 # default version
 MARIADB_VERSION='10.1'
@@ -16,30 +21,57 @@ sudo add-apt-repository "deb [arch=amd64,i386] http://mirrors.accretive-networks
 # Update
 sudo apt-get update
 
+echo -e "\e[32mPlease write a root password for mysql. Leave blank for random\e[39m"
+read ROOT_PASSWORD
+if [ -z "$ROOT_PASSWORD" ]
+then
+      echo -e "\e[32mGenerating Password\e[39m"
+      ROOT_PASSWORD="date +%s | sha256sum | base64 | head -c 15 ; echo"
+      echo -e "\e[32mUsing $ROOT_PASSWORD...\e[39m"
+else
+      echo -e "\e[32mUsing $ROOT_PASSWORD...\e[39m"
+fi
+
 # Install MariaDB without password prompt
 # Set username to 'root' and password to 'mariadb_root_password' (see Vagrantfile)
-sudo debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password password $1"
-sudo debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password_again password $1"
+sudo debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password password $ROOT_PASSWORD"
+sudo debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password_again password $ROOT_PASSWORD"
 
 # Install MariaDB
 # -qq implies -y --force-yes
 sudo apt-get install -qq mariadb-server
 
 # Make Maria connectable from outside world without SSH tunnel
-if [ $2 == "true" ]; then
-    # enable remote access
-    # setting the mysql bind-address to allow connections from everywhere
-    sed -i "s/bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+# enable remote access
+# setting the mysql bind-address to allow connections from everywhere
+sed -i "s/bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
 
-    # adding grant privileges to mysql root user from everywhere
-    # thx to http://stackoverflow.com/questions/7528967/how-to-grant-mysql-privileges-in-a-bash-script for this
-    MYSQL=`which mysql`
-
-    Q1="GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$1' WITH GRANT OPTION;"
-    Q2="FLUSH PRIVILEGES;"
-    SQL="${Q1}${Q2}"
-
-    $MYSQL -uroot -p$1 -e "$SQL"
-
-    service mysql restart
+read -p "Do you want to create a database? " -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    echo -e "\e[32mDatabase User Name:\e[39m"
+    while [[ $DATABASE_USER = "" ]]; do
+        read DATABASE_USER
+    done
+    echo -e "\e[32mUsing $DATABASE_USER...\e[39m"
+    
+    echo -e "\e[32mDatabase Name:\e[39m"
+    while [[ $DATABASE_NAME = "" ]]; do
+        read DATABASE_NAME
+    done
+    echo -e "\e[32mUsing $DATABASE_NAME...\e[39m"
+    
+    echo -e "\e[32mDatabase Password: (Leave Balnk for Random)\e[39m"
+    read ROOT_PASSWORD
+    if [ -z "$DATABASE_PASSWORD" ]
+    then
+      echo -e "\e[32mGenerating Password\e[39m"
+      DATABASE_PASSWORD="date +%s | sha256sum | base64 | head -c 15 ; echo"
+      echo -e "\e[32mUsing $DATABASE_PASSWORD...\e[39m"
+    else
+      echo -e "\e[32mUsing $DATABASE_PASSWORD...\e[39m"
+    fi
+else
+    echo -e "\e[32mSkiping Database creation\e[39m"
 fi
