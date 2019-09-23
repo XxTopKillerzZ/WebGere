@@ -36,9 +36,7 @@ DatabaseCreation() {
 		then
 			rm -r /tmp/create-database.sh
 		fi
-		wget -P /tmp https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/create-database.sh
-		chmod a+x /tmp/create-database.sh
-		/tmp/create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD --rootpass=$ROOT_PASSWORD
+		bash <(wget -P /tmp -qO- https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD --rootpass=$ROOT_PASSWORD)
 		rm -r /tmp/create-database.sh
   
     
