@@ -54,7 +54,7 @@ DatabaseCreation() {
 
 if command -v mysql >/dev/null 2>&1 ; then
     echo -e "\e[32mMysql is already Installed...\e[39m"
-	echo -e "\e[32mBersion: $(mysql --version)\e[39m"
+	echo -e "\e[32mVersion: $(mysql --version)\e[39m"
 	DatabaseCreation
 else
     	echo -e "\e[32mInstalling Mysql...\e[39m"
