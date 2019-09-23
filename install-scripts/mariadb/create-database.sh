@@ -211,16 +211,14 @@ function createMysqlDbUser()
 
     if [ -f /root/.my.cnf ]; then
         $BIN_MYSQL -e "${SQL1}${SQL2}${SQL3}${SQL4}"
-    else
-        if [ -z "$ROOT_PASSWORD" ] then
-            # If /root/.my.cnf doesn't exist then it'll ask for root password
-            _arrow "Please enter root user MySQL password!"
-            read rootPassword
-            $BIN_MYSQL -h $DB_HOST -u root -p${rootPassword} -e "${SQL1}${SQL2}${SQL3}${SQL4}"
-        else
-            $BIN_MYSQL -h $DB_HOST -u root -p${rootPassword} -e "${SQL1}${SQL2}${SQL3}${SQL4}"
-        fi
-    fi
+    elif [ -z "$ROOT_PASSWORD" ]; then
+        # If /root/.my.cnf doesn't exist then it'll ask for root password
+        _arrow "Please enter root user MySQL password!"
+        read rootPassword
+        $BIN_MYSQL -h $DB_HOST -u root -p${rootPassword} -e "${SQL1}${SQL2}${SQL3}${SQL4}"
+     else
+        $BIN_MYSQL -h $DB_HOST -u root -p${rootPassword} -e "${SQL1}${SQL2}${SQL3}${SQL4}"
+     fi
 }
 
 function printSuccessMessage()
