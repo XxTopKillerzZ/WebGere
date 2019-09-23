@@ -1,11 +1,11 @@
 #!/bin/bash
 
-echo -e "\e[34mAutomatic FXServer Setup Script for Ubuntu 16.04 LTS"
+echo -e "\e[32mAutomatic FXServer Setup Script for Ubuntu 18.04 LTS...\e[39m"
 echo
-echo Author: WebGere
-echo Website: https://webgere.pt
+echo -e "\e[32mAuthor: WebGere\e[39m"
+echo -e "\e[32mWebsite: https://webgere.pt\e[39m"
 echo
-echo "Current Version: v0.1\e[39m"
+echo -e "\e[32mCurrent Version: v0.1\e[39m"
 echo
 echo
 
