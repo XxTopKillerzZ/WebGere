@@ -31,9 +31,9 @@ if [ -z "$ROOT_PASSWORD" ]
 then
       echo -e "\e[32mGenerating Password\e[39m"
       ROOT_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
-      echo -e "\e[32mUsing $ROOT_PASSWORD...\e[39m"
+      echo -e "\e[32msuccessfully Generated password...\e[39m"
 else
-      echo -e "\e[32mUsing $ROOT_PASSWORD...\e[39m"
+     
 fi
 
 # Install MariaDB without password prompt
@@ -58,24 +58,36 @@ then
     while [[ $DATABASE_USER = "" ]]; do
         read DATABASE_USER
     done
-    echo -e "\e[32mUsing $DATABASE_USER...\e[39m"
-    
     echo -e "\e[32mDatabase Name:\e[39m"
     while [[ $DATABASE_NAME = "" ]]; do
         read DATABASE_NAME
     done
-    echo -e "\e[32mUsing $DATABASE_NAME...\e[39m"
     
-    echo -e "\e[32mDatabase Password: (Leave Balnk for Random)\e[39m"
-    read ROOT_PASSWORD
+    echo -e "\e[32mDatabase Password: (Leave Blank for Random)\e[39m"
+    read DATABASE_PASSWORD
     if [ -z "$DATABASE_PASSWORD" ]
     then
       echo -e "\e[32mGenerating Password\e[39m"
       DATABASE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
-      echo -e "\e[32mUsing $DATABASE_PASSWORD...\e[39m"
+      echo -e "\e[32msuccessfully Generated password...\e[39m"
     else
-      echo -e "\e[32mUsing $DATABASE_PASSWORD...\e[39m"
+      
     fi
+    
+    
+    
+    
+    
+    
+    #Credentials
+    echo -e "\e[32mDatabase User: $DATABASE_USER...\e[39m"
+    echo -e "\e[32mDatabase Password: $DATABASE_PASSWORD...\e[39m"
+    echo -e "\e[32mDatabase Name: $DATABASE_NAME...\e[39m"
+    
 else
     echo -e "\e[32mSkiping Database creation\e[39m"
+fi
+
+echo -e "\e[32mMysql Password: $ROOT_PASSWORD...\e[39m"
+
 fi
