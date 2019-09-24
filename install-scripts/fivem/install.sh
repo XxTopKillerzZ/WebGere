@@ -349,3 +349,4 @@ if $wantmysql ; then
 else
 	PrintFinalMessage
 fi
+exit 0
