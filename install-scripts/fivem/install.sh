@@ -119,8 +119,9 @@ function processArgs()
 PrintFinalMessage() {
   if $wantmysql ; then
     ip="$(curl ifconfig.me)"
-    cat >> $HOME/fivem/install_log.txt <<EOL
-    ################################################################
+    #cat >> $HOME/fivem/install_log.txt <<EOL
+    
+    echo "################################################################
     Installed Directory: $HOME/fivem
     Version Instaled: $VERSION_WANTED
     ################################################################
@@ -136,8 +137,9 @@ PrintFinalMessage() {
     Database Username: $DB_USER
     Database Password: $DB_PASS
     Database Name: $DB_NAME
-    ################################################################
-    EOL
+    ################################################################" > $HOME/fivem/install_log.txt
+    
+    #EOL
     
     echo -e "\e[32mCompleted FXServer Setup!\e[39m"
     echo "################################################################"
@@ -170,8 +172,9 @@ PrintFinalMessage() {
     echo "################################################################"
     
   else
-    cat > $HOME/fivem/install_log.txt <<EOL
-    ################################################################
+    #cat > $HOME/fivem/install_log.txt <<EOL
+    
+    echo "################################################################
     Installed Directory: $HOME/fivem
     Version Instaled: $VERSION_WANTED
     ################################################################
@@ -180,8 +183,9 @@ PrintFinalMessage() {
     cd $HOME/fivem/server-data
     Edit server.cfg
     bash $HOME/fivem/server/run.sh +exec server.cfg
-    ################################################################
-    EOL
+    ################################################################ > $HOME/fivem/install_log.txt
+    
+    #EOL
     
     echo -e "\e[32mCompleted FXServer Setup!\e[39m"
     echo "################################################################"
