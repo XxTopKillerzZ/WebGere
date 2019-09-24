@@ -67,37 +67,51 @@ function processArgs()
 	echo -e "\e[32mUsing $VERSION_WANTED...\e[39m"
     if
     if [ -n $rootPassword ] || [ -n $DB_NAME ] || [ -n $DB_USER ] || [ -n $DB_PASS ]; then
-    	wantmysql=true
-    	if [ -z $rootPassword ]; then
-		echo -e "\e[32mWhat mysql Root Password do you want?.\e[39m"
-   		read rootPassword
-		if [ -z $rootPassword ]; then
-			echo -e "\e[32mGenerating Password\e[39m"
-			DATABASE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
-			echo -e "\e[32msuccessfully Generated password...\e[39m"
+    	echo -e "\e[32mYou didn't input all the required mysql info.\e[39m"
+	read -p "Do you want to install mysql? (y/n)?" choice
+		case "$choice" in 
+  		y|Y ) wantmysql=true;;
+  		n|N ) wantmysql=false;;
+  		* ) echo "invalid";;
+	esac
+	if $wantmysql ; then
+	
+    		if [ -z $rootPassword ]; then
+			echo -e "\e[32mWhat mysql Root Password do you want?.\e[39m"
+   			read rootPassword
+			if [ -z $rootPassword ]; then
+				echo -e "\e[32mGenerating Password\e[39m"
+				DATABASE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
+				echo -e "\e[32msuccessfully Generated password...\e[39m"
+			fi
+			echo -e "\e[32mUsing *HIDDEN*...\e[39m"
 		fi
-		echo -e "\e[32mUsing *HIDDEN*...\e[39m"
-	fi
-	if [ -z $DB_USER ]; then
-		echo -e "\e[32mDatabase User:\e[39m"
-    		while [[ $DB_USER = "" ]]; do
+		if [ -z $DB_USER ]; then
+			echo -e "\e[32mDatabase User:\e[39m"
+    			while [[ $DB_USER = "" ]]; do
    			read DB_USER
-		done
-		echo -e "\e[32mUsing $DB_USER...\e[39m"
-	fi
-	if [ -z $DB_PASS ]; then
-		echo -e "\e[32mDatabase User:\e[39m"
-    		while [[ $DB_PASS = "" ]]; do
+			done
+			echo -e "\e[32mUsing $DB_USER...\e[39m"
+		fi
+		if [ -z $DB_PASS ]; then
+			echo -e "\e[32mDatabase User:\e[39m"
+    			while [[ $DB_PASS = "" ]]; do
    			read DB_PASS
-		done
-		echo -e "\e[32mUsing *HIDDEN*...\e[39m"
-	fi
-	if [ -z $DB_NAME ]; then
-		echo -e "\e[32mDatabase Name:\e[39m"
-    		while [[ $DB_NAME = "" ]]; do
+			done
+			echo -e "\e[32mUsing *HIDDEN*...\e[39m"
+		fi
+		if [ -z $DB_NAME ]; then
+			echo -e "\e[32mDatabase Name:\e[39m"
+    			while [[ $DB_NAME = "" ]]; do
    			read DB_NAME
-		done
-		echo -e "\e[32mUsing $DB_NAME...\e[39m"
+			done
+			echo -e "\e[32mUsing $DB_NAME...\e[39m"
+		fi
+	else
+	   unset $rootPassword
+	   unset $DB_USER
+	   unset $DB_PASS
+	   unset $DB_NAME
 	fi
     else
     	wantmysql=false
