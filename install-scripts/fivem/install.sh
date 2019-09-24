@@ -54,6 +54,67 @@ DatabaseEcho() {
     Database Name: $DB_NAME
     ################################################################
     EOT
+    
+    echo
+    echo Mysql host: $ip
+    echo Mysql Port: $rootPassword
+    echo Mysql Root Password: 3306
+    echo Database Username: $DB_USER
+    echo Database Password: $DB_PASS
+    echo Database Name: $DB_NAME
+    echo
+    echo "################################################################"
+}
+
+DatabaseInstall() {
+
+	if command -v mysql >/dev/null 2>&1 ; then
+   	 echo -e "\e[32mMysql is already Installed...\e[39m"
+		echo -e "\e[32mVersion: $(mysql --version)\e[39m"
+		DatabaseCreation
+	else
+    		echo -e "\e[32mInstalling Mysql...\e[39m"
+	
+		# default version
+		MARIADB_VERSION='10.1'
+
+		apt-get install -y software-properties-common
+
+		# Import repo key
+		sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+
+		# Add repo for MariaDB
+		sudo add-apt-repository "deb [arch=amd64,i386] http://mirrors.accretive-networks.net/mariadb/repo/$MARIADB_VERSION/ubuntu trusty main"
+
+		# Update
+		sudo apt-get update
+
+		echo -e "\e[32mPlease write a root password for mysql. Leave blank for random\e[39m"
+		read ROOT_PASSWORD
+		if [ -z "$ROOT_PASSWORD" ]
+		then
+			echo -e "\e[32mGenerating Password\e[39m"
+			ROOT_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
+			echo -e "\e[32msuccessfully Generated password...\e[39m" 
+		fi
+
+		# Install MariaDB without password prompted
+		sudo debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password password $ROOT_PASSWORD"
+		sudo debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password_again password $ROOT_PASSWORD"
+
+		# Install MariaDB
+		# -qq implies -y --force-yes
+		sudo apt-get install -qq mariadb-server
+
+		# Make Maria connectable from outside world without SSH tunnel
+		# enable remote access
+		# setting the mysql bind-address to allow connections from everywhere
+		sed -i "s/bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+	
+		DatabaseCreation
+	fi
+
+
 }
 
 DatabaseCreation() {
@@ -181,8 +242,4 @@ fi
 rm -rf "$HOME/fivem/temp"
 echo -e "Deleted temp folder"
 
-
-
-
-#wget -O - https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/install.sh | bash
-
+DatabaseInstall
