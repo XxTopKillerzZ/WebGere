@@ -335,7 +335,6 @@ if [ ! -f "$HOME/fivem/server-data/server.cfg" ]; then
     echo -e "\e[32mCreating server.cfg...\e[39m"
     wget -q --show-progress "https://gist.githubusercontent.com/d0p3t/09d9ff1dc93d2534e7eb7c2712b163a9/raw/a382d32ad3e186bef85322eda52bd44bcb10e5e2/server.cfg" -P "$HOME/fivem/server-data"
     echo -e "\e[32mDone creating server.cfg in $HOME/fivem/server-data\e[39m"
-    echo -e "Don't forget to add your license key to 'server.cfg'!"
 else
     echo Found existing server.cfg, skipping creating server.cfg
 fi
@@ -349,4 +348,3 @@ if $wantmysql ; then
 else
 	PrintFinalMessage
 fi
-exit 0
