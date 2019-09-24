@@ -1,13 +1,71 @@
 #!/bin/bash
-
+VERSION="v0.1"
 echo -e "\e[32mAutomatic FXServer Setup Script for Ubuntu 18.04 LTS...\e[39m"
 echo
 echo -e "\e[32mAuthor: WebGere\e[39m"
 echo -e "\e[32mWebsite: https://webgere.pt\e[39m"
 echo
-echo -e "\e[32mCurrent Version: v0.1\e[39m"
+echo -e "\e[32mCurrent Version: $VERSION\e[39m"
 echo
 echo
+
+function _printUsage()
+{
+    echo -n "$(basename $0) [OPTION]...
+Fivem FxServer Installer.
+Version $VERSION
+    Options:
+    	-v, --t        Fivem Version
+        -h, --host       MySQL Host
+        -rp, --rootpass   MySQL Root Password
+        -d, --database    MySQL Database
+        -u, --user        MySQL User
+        -p, --pass        MySQL Password (If empty, auto-generated)
+        -h, --help        Display this help and exit
+    Examples:
+        $(basename $0) --help
+"
+    exit 1
+}
+
+function processArgs()
+{
+    # Parse Arguments
+    for arg in "$@"
+    do
+        case $arg in
+	    -v=*|--version=*)
+                $VERSION_WANTED="${arg#*=}"
+            ;;
+            -h=*|--host=*)
+                DB_HOST="${arg#*=}"
+            ;;
+            -rp=*|--rootpass=*)
+                rootPassword="${arg#*=}"
+            ;;
+            -d=*|--database=*)
+                DB_NAME="${arg#*=}"
+            ;;
+            -u=*|--user=*)
+                DB_USER="${arg#*=}"
+            ;;
+             -p=*|--pass=*)
+                DB_PASS="${arg#*=}"
+            ;;
+            --debug)
+                DEBUG=1
+            ;;
+            -h|--help)
+                _printUsage
+            ;;
+            *)
+                _printUsage
+            ;;
+        esac
+    done
+    [[ -z $DB_NAME ]] && _error "Database name cannot be empty." && exit 1
+    [[ $DB_USER ]] || DB_USER=$DB_NAME
+}
 
 PrintFinalMessage() {
 
@@ -199,10 +257,12 @@ else
 fi
 echo -e "\e[32mDone creating directories.\e[39m"
 
+
+############################Check if user has input .v or --version, check if VERSION_WANTED is null
 echo -e "\e[32mWhat Version do you want to install.\e[39m"
 read VERSION_WANTED
 echo -e "\e[32mUsing $VERSION_WANTED...\e[39m"
-
+#########################
 
 if [ ! -f "$HOME/fivem/server/version_wanted.log" ]; then
     touch "$HOME/fivem/server/version_wanted.log"
