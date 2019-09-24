@@ -30,15 +30,13 @@ Version $VERSION
 
 function processArgs()
 {
+    autoinstall=false
     # Parse Arguments
     for arg in "$@"
     do
         case $arg in
 	    -v=*|--version=*)
-                $VERSION_WANTED="${arg#*=}"
-            ;;
-            -h=*|--host=*)
-                DB_HOST="${arg#*=}"
+                VERSION_WANTED="${arg#*=}"
             ;;
             -rp=*|--rootpass=*)
                 rootPassword="${arg#*=}"
@@ -52,19 +50,58 @@ function processArgs()
              -p=*|--pass=*)
                 DB_PASS="${arg#*=}"
             ;;
-            --debug)
-                DEBUG=1
-            ;;
             -h|--help)
                 _printUsage
+            ;;
+	    -np|--noprompt)
+		autoinstall=true
             ;;
             *)
                 _printUsage
             ;;
         esac
     done
-    [[ -z $DB_NAME ]] && _error "Database name cannot be empty." && exit 1
-    [[ $DB_USER ]] || DB_USER=$DB_NAME
+    if [ -z $VERSION_WANTED ]; then
+    	echo -e "\e[32mWhat Fivem Version do you want to install.\e[39m"
+    	read VERSION_WANTED
+	echo -e "\e[32mUsing $VERSION_WANTED...\e[39m"
+    if
+    if [ -n $rootPassword ] || [ -n $DB_NAME ] || [ -n $DB_USER ] || [ -n $DB_PASS ]; then
+    	wantmysql=true
+    	if [ -z $rootPassword ]; then
+		echo -e "\e[32mWhat mysql Root Password do you want?.\e[39m"
+   		read rootPassword
+		if [ -z $rootPassword ]; then
+			echo -e "\e[32mGenerating Password\e[39m"
+			DATABASE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
+			echo -e "\e[32msuccessfully Generated password...\e[39m"
+		fi
+		echo -e "\e[32mUsing *HIDDEN*...\e[39m"
+	fi
+	if [ -z $DB_USER ]; then
+		echo -e "\e[32mDatabase User:\e[39m"
+    		while [[ $DB_USER = "" ]]; do
+   			read DB_USER
+		done
+		echo -e "\e[32mUsing $DB_USER...\e[39m"
+	fi
+	if [ -z $DB_PASS ]; then
+		echo -e "\e[32mDatabase User:\e[39m"
+    		while [[ $DB_PASS = "" ]]; do
+   			read DB_PASS
+		done
+		echo -e "\e[32mUsing *HIDDEN*...\e[39m"
+	fi
+	if [ -z $DB_NAME ]; then
+		echo -e "\e[32mDatabase Name:\e[39m"
+    		while [[ $DB_NAME = "" ]]; do
+   			read DB_NAME
+		done
+		echo -e "\e[32mUsing $DB_NAME...\e[39m"
+	fi
+    else
+    	wantmysql=false
+    if
 }
 
 PrintFinalMessage() {
@@ -176,37 +213,21 @@ DatabaseInstall() {
 }
 
 DatabaseCreation() {
-    read -p "Do you want to create a database? " -n 1 -r
-	echo    # (optional) move to a new line
-	if [[ $REPLY =~ ^[Yy]$ ]]
-	then
-		echo -e "\e[32mDatabase User Name:\e[39m"
-		while [[ $DATABASE_USER = "" ]]; do
-			read DATABASE_USER
-		done
-		
-		echo -e "\e[32mDatabase Name:\e[39m"
-		while [[ $DATABASE_NAME = "" ]]; do
-			read DATABASE_NAME
-		done
+	echo -e "\e[32mStarting databse creation...\e[39m"
     
-		echo -e "\e[32mDatabase Password: (Leave Blank for Random)\e[39m"
-		read DATABASE_PASSWORD
-		if [ -z "$DATABASE_PASSWORD" ]
-		then
-			echo -e "\e[32mGenerating Password\e[39m"
-			DATABASE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
-			echo -e "\e[32msuccessfully Generated password...\e[39m"
-		fi
+	echo -e "\e[32mDatabase Password: (Leave Blank for Random)\e[39m"
+	read DATABASE_PASSWORD
+	if [ -z "$DATABASE_PASSWORD" ]
+	then
+		echo -e "\e[32mGenerating Password\e[39m"
+		DATABASE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
+		echo -e "\e[32msuccessfully Generated password...\e[39m"
+	fi
 		
        	wget https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/create-database.sh -v -O create-database.sh && bash ./create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD --rootpass=$ROOT_PASSWORD; rm -rf create-database.sh
-
-	else
-		echo -e "\e[32mSkiping Database creation\e[39m"
-		echo -e "\e[32mMysql Root Password: $ROOT_PASSWORD\e[39m"
-	fi
 }
 
+processArgs "$@"
 
 echo -e "\e[32mInstalling Dependencies...\e[39m"
 apt-get -y update
@@ -257,12 +278,11 @@ else
 fi
 echo -e "\e[32mDone creating directories.\e[39m"
 
-
-############################Check if user has input .v or --version, check if VERSION_WANTED is null
-echo -e "\e[32mWhat Version do you want to install.\e[39m"
-read VERSION_WANTED
-echo -e "\e[32mUsing $VERSION_WANTED...\e[39m"
-#########################
+if [ -z $VERSION_WANTED ] || [ "$autoinstall" = "false" ];  then
+	echo -e "\e[32mWhat Version do you want to install.\e[39m"
+	read VERSION_WANTED
+	echo -e "\e[32mUsing $VERSION_WANTED...\e[39m"
+fi
 
 if [ ! -f "$HOME/fivem/server/version_wanted.log" ]; then
     touch "$HOME/fivem/server/version_wanted.log"
@@ -302,4 +322,8 @@ fi
 rm -rf "$HOME/fivem/temp"
 echo -e "Deleted temp folder"
 
-DatabaseInstall
+if $wantmysql ; then
+    	DatabaseInstall()
+else
+	PrintFinalMessage
+fi
