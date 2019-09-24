@@ -81,7 +81,7 @@ function processArgs()
    			read rootPassword
 			if [ -z $rootPassword ]; then
 				echo -e "\e[32mGenerating Password\e[39m"
-				DATABASE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
+				rootPassword=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
 				echo -e "\e[32msuccessfully Generated password...\e[39m"
 			fi
 			echo -e "\e[32mUsing *HIDDEN*...\e[39m"
@@ -95,10 +95,12 @@ function processArgs()
 		fi
 		if [ -z $DB_PASS ]; then
 			echo -e "\e[32mDatabase User:\e[39m"
-    			while [[ $DB_PASS = "" ]]; do
-   			read DB_PASS
-			done
-			echo -e "\e[32mUsing *HIDDEN*...\e[39m"
+    			read DB_PASS
+			if [ -z $DB_PASS ]; then
+				echo -e "\e[32mGenerating Password\e[39m"
+				DB_PASS=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
+				echo -e "\e[32msuccessfully Generated password...\e[39m"
+			fi
 		fi
 		if [ -z $DB_NAME ]; then
 			echo -e "\e[32mDatabase Name:\e[39m"
@@ -119,18 +121,26 @@ function processArgs()
 }
 
 PrintFinalMessage() {
-
+  if $wantmysql ; then
+    ip="$(curl ifconfig.me)"
     cat <<EOT >> $HOME/fivem/install_log.txt
-    ################################################################
-    Installed Directory: $HOME/fivem
-    Version Instaled: $VERSION_WANTED
-    ################################################################
-    Instructions to start server:
+    "################################################################"
+    "Installed Directory: $HOME/fivem"
+    "Version Instaled: $VERSION_WANTED"
+    '################################################################"
+    "Instructions to start server:"
     
-    cd $HOME/fivem/server-data'
-    Edit server.cfg
-    'bash $HOME/fivem/server/run.sh +exec server.cfg'
-    ################################################################
+    "cd $HOME/fivem/server-data"
+    "Edit server.cfg"
+    "bash $HOME/fivem/server/run.sh +exec server.cfg"
+    "################################################################"
+    "Mysql host: $ip"
+    "Mysql Root Password: 3306"
+    "Mysql Port: $rootPassword"
+    "Database Username: $DB_USER"
+    "Database Password: $DB_PASS"
+    "Database Name: $DB_NAME"
+    "################################################################"
     EOT
     
     echo -e "\e[32mCompleted FXServer Setup!\e[39m"
@@ -149,21 +159,6 @@ PrintFinalMessage() {
     echo -e "\e[32mThis info is also available at:$HOME/fivem/install_log.txt!\e[39m"
     echo
     echo "################################################################"
-
-}
-
-DatabaseEcho() {
-    ip="$(curl ifconfig.me)"
-    cat <<EOT >> $HOME/fivem/install_log.txt
-    Mysql host: $ip
-    Mysql Port: $rootPassword
-    Mysql Root Password: 3306
-    Database Username: $DB_USER
-    Database Password: $DB_PASS
-    Database Name: $DB_NAME
-    ################################################################
-    EOT
-    
     echo
     echo Mysql host: $ip
     echo Mysql Port: $rootPassword
@@ -173,6 +168,43 @@ DatabaseEcho() {
     echo Database Name: $DB_NAME
     echo
     echo "################################################################"
+    echo
+    echo -e "\e[32mThis info is also available at:$HOME/fivem/install_log.txt!\e[39m"
+    echo
+    echo "################################################################"
+    
+  else
+    cat <<EOT >> $HOME/fivem/install_log.txt
+    '################################################################'
+    Installed Directory: $HOME/fivem
+    Version Instaled: $VERSION_WANTED
+    '################################################################'
+    Instructions to start server:
+    
+    'cd $HOME/fivem/server-data'
+    Edit server.cfg
+    'bash $HOME/fivem/server/run.sh +exec server.cfg'
+    '################################################################'
+    EOT
+    
+    echo -e "\e[32mCompleted FXServer Setup!\e[39m"
+    echo "################################################################"
+    Installed Directory: $HOME/fivem
+    Version Instaled: $VERSION_WANTED
+    echo "################################################################"
+    echo
+    echo -e "Instructions to start server"
+    echo "1. 'cd $HOME/fivem/server-data'"
+    echo "2. 'Edit server.cfg'"
+    echo "3. 'bash $HOME/fivem/server/run.sh +exec server.cfg'"
+    echo
+    echo "################################################################"
+    echo
+    echo -e "\e[32mThis info is also available at:$HOME/fivem/install_log.txt!\e[39m"
+    echo
+    echo "################################################################"
+  fi
+  exit 0
 }
 
 DatabaseInstall() {
@@ -198,15 +230,6 @@ DatabaseInstall() {
 		# Update
 		sudo apt-get update
 
-		echo -e "\e[32mPlease write a root password for mysql. Leave blank for random\e[39m"
-		read ROOT_PASSWORD
-		if [ -z "$ROOT_PASSWORD" ]
-		then
-			echo -e "\e[32mGenerating Password\e[39m"
-			ROOT_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
-			echo -e "\e[32msuccessfully Generated password...\e[39m" 
-		fi
-
 		# Install MariaDB without password prompted
 		sudo debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password password $ROOT_PASSWORD"
 		sudo debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password_again password $ROOT_PASSWORD"
@@ -227,18 +250,9 @@ DatabaseInstall() {
 }
 
 DatabaseCreation() {
-	echo -e "\e[32mStarting databse creation...\e[39m"
-    
-	echo -e "\e[32mDatabase Password: (Leave Blank for Random)\e[39m"
-	read DATABASE_PASSWORD
-	if [ -z "$DATABASE_PASSWORD" ]
-	then
-		echo -e "\e[32mGenerating Password\e[39m"
-		DATABASE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
-		echo -e "\e[32msuccessfully Generated password...\e[39m"
-	fi
-		
+	echo -e "\e[32mStarting databse creation...\e[39m"	
        	wget https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/create-database.sh -v -O create-database.sh && bash ./create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD --rootpass=$ROOT_PASSWORD; rm -rf create-database.sh
+	PrintFinalMessage
 }
 
 processArgs "$@"
