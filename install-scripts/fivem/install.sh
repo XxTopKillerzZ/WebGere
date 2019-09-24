@@ -9,6 +9,86 @@ echo -e "\e[32mCurrent Version: v0.1\e[39m"
 echo
 echo
 
+PrintFinalMessage() {
+
+    cat <<EOT >> $HOME/fivem/install_log.txt
+    ################################################################
+    Installed Directory: $HOME/fivem
+    Version Instaled: $VERSION_WANTED
+    ################################################################
+    Instructions to start server:
+    
+    cd $HOME/fivem/server-data'
+    Edit server.cfg
+    'bash $HOME/fivem/server/run.sh +exec server.cfg'
+    ################################################################
+    EOT
+    
+    echo -e "\e[32mCompleted FXServer Setup!\e[39m"
+    echo "################################################################"
+    Installed Directory: $HOME/fivem
+    Version Instaled: $VERSION_WANTED
+    echo "################################################################"
+    echo
+    echo -e "Instructions to start server"
+    echo "1. 'cd $HOME/fivem/server-data'"
+    echo "2. 'Edit server.cfg'"
+    echo "3. 'bash $HOME/fivem/server/run.sh +exec server.cfg'"
+    echo
+    echo "################################################################"
+    echo
+    echo -e "\e[32mThis info is also available at:$HOME/fivem/install_log.txt!\e[39m"
+    echo
+    echo "################################################################"
+
+}
+
+DatabaseEcho() {
+    ip="$(curl ifconfig.me)"
+    cat <<EOT >> $HOME/fivem/install_log.txt
+    Mysql host: $ip
+    Mysql Port: $rootPassword
+    Mysql Root Password: 3306
+    Database Username: $DB_USER
+    Database Password: $DB_PASS
+    Database Name: $DB_NAME
+    ################################################################
+    EOT
+}
+
+DatabaseCreation() {
+    read -p "Do you want to create a database? " -n 1 -r
+	echo    # (optional) move to a new line
+	if [[ $REPLY =~ ^[Yy]$ ]]
+	then
+		echo -e "\e[32mDatabase User Name:\e[39m"
+		while [[ $DATABASE_USER = "" ]]; do
+			read DATABASE_USER
+		done
+		
+		echo -e "\e[32mDatabase Name:\e[39m"
+		while [[ $DATABASE_NAME = "" ]]; do
+			read DATABASE_NAME
+		done
+    
+		echo -e "\e[32mDatabase Password: (Leave Blank for Random)\e[39m"
+		read DATABASE_PASSWORD
+		if [ -z "$DATABASE_PASSWORD" ]
+		then
+			echo -e "\e[32mGenerating Password\e[39m"
+			DATABASE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 15 ; echo)
+			echo -e "\e[32msuccessfully Generated password...\e[39m"
+		fi
+		
+       	wget https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/create-database.sh -v -O create-database.sh && bash ./create-database.sh --host=localhost --database=$DATABASE_NAME --user=$DATABASE_USER --pass=$DATABASE_PASSWORD --rootpass=$ROOT_PASSWORD; rm -rf create-database.sh
+
+	else
+		echo -e "\e[32mSkiping Database creation\e[39m"
+		echo -e "\e[32mMysql Root Password: $ROOT_PASSWORD\e[39m"
+	fi
+}
+
+
 echo -e "\e[32mInstalling Dependencies...\e[39m"
 apt-get -y update
 if command -v sudo >/dev/null 2>&1 ; then
@@ -101,15 +181,8 @@ fi
 rm -rf "$HOME/fivem/temp"
 echo -e "Deleted temp folder"
 
-wget -O - https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/install.sh | bash
 
-echo "################################################################"
-echo 
-echo -e "\e[32mCompleted FXServer Setup!\e[39m"
-echo
-echo -e "Instructions to start server"
-echo "1. 'cd $HOME/fivem/server-data'"
-echo "2. 'Edit serve.cfg'"
-echo "3. 'bash $HOME/fivem/server/run.sh +exec server.cfg'"
-echo
-echo "################################################################"
+
+
+#wget -O - https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/install.sh | bash
+
