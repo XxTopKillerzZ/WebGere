@@ -53,9 +53,6 @@ function processArgs()
             -h|--help)
                 _printUsage
             ;;
-	    -np|--noprompt)
-		autoinstall=true
-            ;;
             *)
                 _printUsage
             ;;
@@ -305,12 +302,6 @@ else
     echo Skipping server-data directory, already exists
 fi
 echo -e "\e[32mDone creating directories.\e[39m"
-
-if [ -z $VERSION_WANTED ] || [ "$autoinstall" = "false" ];  then
-	echo -e "\e[32mWhat Version do you want to install.\e[39m"
-	read VERSION_WANTED
-	echo -e "\e[32mUsing $VERSION_WANTED...\e[39m"
-fi
 
 if [ ! -f "$HOME/fivem/server/version_wanted.log" ]; then
     touch "$HOME/fivem/server/version_wanted.log"
