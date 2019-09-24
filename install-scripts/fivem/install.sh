@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION="v0.1"
+VERSION="v2.0"
 echo -e "\e[32mAutomatic FXServer Setup Script for Ubuntu 18.04 LTS...\e[39m"
 echo
 echo -e "\e[32mAuthor: WebGere\e[39m"
