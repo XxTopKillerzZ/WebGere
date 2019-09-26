@@ -70,7 +70,7 @@ function processArgs()
   		n|N ) wantmysql=false;;
   		* ) echo "invalid";;
 	esac
-	if $wantmysql ; then
+	if [ "$wantmysql" = "true" ]; then
 	
     		if [ -z $rootPassword ]; then
 			echo -e "\e[32mWhat mysql Root Password do you want?.\e[39m"
@@ -117,7 +117,7 @@ function processArgs()
 }
 
 PrintFinalMessage() {
-  if $wantmysql ; then
+  if [ "$wantmysql" = "true" ]; then
     ip="$(curl ifconfig.me)"
     #cat >> $HOME/fivem/install_log.txt <<EOL
     
@@ -343,7 +343,7 @@ fi
 rm -rf "$HOME/fivem/temp"
 echo -e "Deleted temp folder"
 
-if $wantmysql ; then
+if [ "$wantmysql" = "true" ]; then
     	DatabaseInstall()
 else
 	PrintFinalMessage
