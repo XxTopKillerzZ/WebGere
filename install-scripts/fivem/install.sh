@@ -53,6 +53,50 @@ function processArgs()
     	read VERSION_WANTED
 	echo -e "\e[32mUsing $VERSION_WANTED...\e[39m"
     fi
+    if [ -z $rootPassword ] || [ -z $DB_NAME ] || [ -z $DB_USER ] || [ -z $DB_PASS ]; then
+	read -p "Do you want to install mysql? (y/n)?" choice
+		case "$choice" in 
+  		y|Y ) wantmysql=true;;
+  		n|N ) wantmysql=false;;
+  		* ) echo "invalid";;
+	esac
+	if [ "$wantmysql" = "true" ]; then
+	
+    		if [ -z $rootPassword ]; then
+			echo -e "\e[32mWhat mysql Root Password do you want?.\e[39m"
+   			read rootPassword
+			if [ -z $rootPassword ]; then
+				echo -e "\e[32mGenerating Password\e[39m"
+				rootPassword=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
+				echo -e "\e[32msuccessfully Generated password...\e[39m"
+			fi
+			echo -e "\e[32mUsing *HIDDEN*...\e[39m"
+		fi
+		if [ -z $DB_USER ]; then
+			echo -e "\e[32mDatabase User:\e[39m"
+    			while [[ $DB_USER = "" ]]; do
+   			read DB_USER
+			done
+			echo -e "\e[32mUsing $DB_USER...\e[39m"
+		fi
+		if [ -z $DB_PASS ]; then
+			echo -e "\e[32mDatabase User:\e[39m"
+    			read DB_PASS
+			if [ -z $DB_PASS ]; then
+				echo -e "\e[32mGenerating Password\e[39m"
+				DB_PASS=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
+				echo -e "\e[32msuccessfully Generated password...\e[39m"
+			fi
+		fi
+		if [ -z $DB_NAME ]; then
+			echo -e "\e[32mDatabase Name:\e[39m"
+    			while [[ $DB_NAME = "" ]]; do
+   			read DB_NAME
+			done
+			echo -e "\e[32mUsing $DB_NAME...\e[39m"
+		fi
+	fi
+    fi
     if [[ -n $rootPassword ]] || [[ -n $DB_NAME ]] || [[ -n $DB_USER ]] || [[ -n $DB_PASS ]]; then
     	echo -e "\e[32mYou didn't input all the required mysql info.\e[39m"
 	read -p "Do you want to install mysql? (y/n)?" choice
