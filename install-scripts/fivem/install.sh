@@ -117,7 +117,7 @@ function processArgs()
 }
 
 PrintFinalMessage() {
-  if [ "$wantmysql" = "true" ]; then
+  if $wantmysql ; then
     ip="$(curl ifconfig.me)"
     #cat >> $HOME/fivem/install_log.txt <<EOL
     
@@ -343,8 +343,8 @@ FivemInstalation() {
 	rm -rf "$HOME/fivem/temp"
 	echo -e "Deleted temp folder"
 	
-	if [ "$wantmysql" = "true" ]; then
-    	DatabaseInstall()
+	if $wantmysql ; then
+    	       DatabaseInstall
 	else
 		PrintFinalMessage
 	fi
