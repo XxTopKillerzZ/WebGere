@@ -291,10 +291,12 @@ function main()
     exit 0
 }
 
-rootPassword=
-DB_NAME=
+export LC_CTYPE=C
+export LANG=C
+
 DB_USER=
 DB_NAME=
-DB_PASS=$(generatePassword)
+DB_PASS=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
+rootPassword=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
 
 main "$@"
