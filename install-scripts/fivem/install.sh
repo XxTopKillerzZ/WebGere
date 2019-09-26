@@ -89,8 +89,8 @@ PrintFinalMessage() {
     
     echo -e "\e[32mCompleted FXServer Setup!\e[39m"
     echo "################################################################"
-    Installed Directory: $HOME/fivem
-    Version Instaled: $VERSION_WANTED
+    echo "Installed Directory: $HOME/fivem"
+    echo "Version Instaled: $VERSION_WANTED"
     echo "################################################################"
     echo
     echo -e "Instructions to start server"
@@ -104,12 +104,12 @@ PrintFinalMessage() {
     echo
     echo "################################################################"
     echo
-    echo Mysql host: $ip
-    echo Mysql Port: $rootPassword
-    echo Mysql Root Password: 3306
-    echo Database Username: $DB_USER
-    echo Database Password: $DB_PASS
-    echo Database Name: $DB_NAME
+    echo "Mysql host: $ip"
+    echo "Mysql Port: $rootPassword"
+    echo "Mysql Root Password: 3306"
+    echo "Database Username: $DB_USER"
+    echo "Database Password: $DB_PASS"
+    echo "Database Name: $DB_NAME"
     echo
     echo "################################################################"
     echo
@@ -127,13 +127,13 @@ PrintFinalMessage() {
     cd $HOME/fivem/server-data
     Edit server.cfg
     bash $HOME/fivem/server/run.sh +exec server.cfg
-    ################################################################ > $HOME/fivem/install_log.txt
+    ################################################################" > $HOME/fivem/install_log.txt
   
   
     echo -e "\e[32mCompleted FXServer Setup!\e[39m"
     echo "################################################################"
-    echo Installed Directory: $HOME/fivem
-    echo Version Instaled: $VERSION_WANTED
+    echo "Installed Directory: $HOME/fivem"
+    echo "Version Instaled: $VERSION_WANTED"
     echo "################################################################"
     echo
     echo -e "Instructions to start server"
