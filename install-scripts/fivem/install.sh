@@ -27,6 +27,10 @@ function processArgs()
         case $arg in
 	    -v=*|--version=*)
                 VERSION_WANTED="${arg#*=}"
+		if ! [[ $VERSION_WANTED =~ ^[0-9]{4}-[a-zA-Z0-9]{40}$ ]] then
+  			echo "Invalid Fivem Version"
+			_printUsage
+		fi
             ;;
             -rp=*|--rootpass=*)
                 rootPassword="${arg#*=}"
