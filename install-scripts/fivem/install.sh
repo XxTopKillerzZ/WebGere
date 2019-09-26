@@ -110,27 +110,6 @@ function processArgs()
 PrintFinalMessage() {
   if $wantmysql ; then
     ip="$(curl ifconfig.me)"
-    #cat >> $HOME/fivem/install_log.txt <<EOL
-    
-    echo "################################################################
-    Installed Directory: $HOME/fivem
-    Version Instaled: $VERSION_WANTED
-    ################################################################
-    Instructions to start server:
-    
-    cd $HOME/fivem/server-data
-    Edit server.cfg
-    bash $HOME/fivem/server/run.sh +exec server.cfg
-    ################################################################
-    Mysql host: $ip
-    Mysql Root Password: 3306
-    Mysql Port: $rootPassword
-    Database Username: $DB_USER
-    Database Password: $DB_PASS
-    Database Name: $DB_NAME
-    ################################################################" > $HOME/fivem/install_log.txt
-    
-    #EOL
     
     echo -e "\e[32mCompleted FXServer Setup!\e[39m"
     echo "################################################################"
@@ -163,21 +142,6 @@ PrintFinalMessage() {
     echo "################################################################"
     
   else
-    #cat > $HOME/fivem/install_log.txt <<EOL
-    
-    echo "################################################################
-    Installed Directory: $HOME/fivem
-    Version Instaled: $VERSION_WANTED
-    ################################################################
-    Instructions to start server:
-    
-    cd $HOME/fivem/server-data
-    Edit server.cfg
-    bash $HOME/fivem/server/run.sh +exec server.cfg
-    ################################################################ > $HOME/fivem/install_log.txt
-    
-    #EOL
-    
     echo -e "\e[32mCompleted FXServer Setup!\e[39m"
     echo "################################################################"
     Installed Directory: $HOME/fivem
