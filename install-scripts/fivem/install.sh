@@ -53,7 +53,7 @@ function processArgs()
     	read VERSION_WANTED
 	echo -e "\e[32mUsing $VERSION_WANTED...\e[39m"
     fi
-    if [ -n $rootPassword ] || [ -n $DB_NAME ] || [ -n $DB_USER ] || [ -n $DB_PASS ]; then
+    if [[ -n $rootPassword ]] || [[ -n $DB_NAME ]] || [[ -n $DB_USER ]] || [[ -n $DB_PASS ]]; then
     	echo -e "\e[32mYou didn't input all the required mysql info.\e[39m"
 	read -p "Do you want to install mysql? (y/n)?" choice
 		case "$choice" in 
