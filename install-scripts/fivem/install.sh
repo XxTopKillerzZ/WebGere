@@ -25,19 +25,19 @@ function processArgs()
     for arg in "$@"
     do
         case $arg in
-	    -v=*|--version=*)
+	    -v|--version)
                 VERSION_WANTED="${arg#*=}"
             ;;
-            -rp=*|--rootpass=*)
+            -rp|--rootpass)
                 rootPassword="${arg#*=}"
             ;;
-            -d=*|--database=*)
+            -d|--database)
                 DB_NAME="${arg#*=}"
             ;;
-            -u=*|--user=*)
+            -u|--user)
                 DB_USER="${arg#*=}"
             ;;
-             -p=*|--pass=*)
+             -p|--pass)
                 DB_PASS="${arg#*=}"
             ;;
             -h|--help)
