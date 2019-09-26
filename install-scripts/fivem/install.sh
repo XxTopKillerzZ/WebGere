@@ -1,4 +1,10 @@
 #!/bin/bash
+
+# Automatic FXServer Setup Script for Ubuntu 18.04 LTS...
+
+# Author: WebGere
+# Website: https://webgere.pt
+
 _bold=$(tput bold)
 _underline=$(tput sgr 0 1)
 _reset=$(tput sgr0)
