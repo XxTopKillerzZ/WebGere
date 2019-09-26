@@ -34,26 +34,26 @@ Version $VERSION
 dependencycheck()
 {
 	echo -e "\e[32mInstalling Dependencies...\e[39m"
-	apt-get -y update
+	apt-get -y -qq update
 	if ! command -v sudo >/dev/null 2>&1 ; then
 		echo -e "\e[32mInstalling Sudo...\e[39m"
-		apt-get install -y sudo
+		apt-get install -y -qq sudo
 	fi
 	if ! command -v wget >/dev/null 2>&1 ; then
 		echo -e "\e[32mInstalling Wget...\e[39m"
-		sudo apt-get install -y wget
+		sudo apt-get install -y -qq wget
 	fi
 	if ! command -v tar >/dev/null 2>&1 ; then
 		echo -e "\e[32mInstalling Tar...\e[39m"
-		sudo apt-get install -y tar
+		sudo apt-get install -y -qq tar
 	fi
 	if ! command -v git >/dev/null 2>&1 ; then
 		echo -e "\e[32mInstalling Git...\e[39m"
-		sudo apt-get install -y git
+		sudo apt-get install -y -qq git
 	fi
 	if ! command -v curl >/dev/null 2>&1 ; then
 		echo -e "\e[32mInstalling Curl...\e[39m"
-		sudo apt-get install -y curl
+		sudo apt-get install -y -qq curl
 	fi
 }
 
@@ -200,7 +200,7 @@ DatabaseInstall() {
 		# default version
 		MARIADB_VERSION='10.1'
 
-		apt-get install -y software-properties-common
+		apt-get install -y -qq software-properties-common
 
 		# Import repo key
 		sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
@@ -209,7 +209,7 @@ DatabaseInstall() {
 		sudo add-apt-repository "deb [arch=amd64,i386] http://mirrors.accretive-networks.net/mariadb/repo/$MARIADB_VERSION/ubuntu trusty main"
 
 		# Update
-		sudo apt-get update
+		sudo apt-get -qq update
 
 		# Install MariaDB without password prompted
 		sudo debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password password $ROOT_PASSWORD"
