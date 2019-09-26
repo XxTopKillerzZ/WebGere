@@ -7,7 +7,6 @@ Fivem FxServer Installer.
 Version $VERSION
     Options:
     	-v, --version       Fivem Version
-        -h, --host       MySQL Host
         -rp, --rootpass   MySQL Root Password
         -d, --database    MySQL Database
         -u, --user        MySQL User
@@ -58,7 +57,7 @@ function processArgs()
 		#	_printUsage
 		#fi
 		if ! { (curl -s "https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/" | grep "$VERSION_WANTED") && [[ $VERSION_WANTED =~ ^[0-9]{4}-[a-zA-Z0-9]{40}$ ]]; }; then
-			echo "Invalid Fivem Version"
+			echo -e "\e[32mInvalid Fivem Version\e[39m"
 			_printUsage
 		fi
             ;;
@@ -82,7 +81,7 @@ function processArgs()
             ;;
         esac
     done
-    if [[ -n $rootPassword ]] || [[ -n $DB_NAME ]] || [[ -n $DB_USER ]] || [[ -n $DB_PASS ]]; then
+    if [[ -n $rootPassword ]] && [[ -n $DB_NAME ]] && [[ -n $DB_USER ]] && [[ -n $DB_PASS ]]; then
     	wantmysql=true
     elif [ -z $rootPassword ] && [ -z $DB_NAME ] && [ -z $DB_USER ] && [ -z $DB_PASS ]; then
     	wantmysql=false
