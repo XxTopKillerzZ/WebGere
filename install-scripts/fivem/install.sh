@@ -1,5 +1,9 @@
 #!/bin/bash
 
+function _error() {
+    printf "${_red}✖ %s${_reset}\n" "$@"
+}
+
 function _printUsage()
 {
     echo -n "$(basename $0) [OPTION]...
@@ -57,7 +61,7 @@ function processArgs()
 		#	_printUsage
 		#fi
 		if ! { (curl -s "https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/" | grep "$VERSION_WANTED") && [[ $VERSION_WANTED =~ ^[0-9]{4}-[a-zA-Z0-9]{40}$ ]]; }; then
-			echo -e "\e[32mInvalid Fivem Version\e[39m"
+			_error "Invalid Fivem Version."
 			_printUsage
 		fi
             ;;
@@ -86,7 +90,7 @@ function processArgs()
     elif [ -z $rootPassword ] && [ -z $DB_NAME ] && [ -z $DB_USER ] && [ -z $DB_PASS ]; then
     	wantmysql=false
     elif [[ -n $rootPassword ]] || [[ -n $DB_NAME ]] || [[ -n $DB_USER ]] || [[ -n $DB_PASS ]]; then
-        echo -e "\e[32mMysql Info Needed\e[39m"
+	_error "Mysql Info Needed."
     	_printUsage
     fi
 }
