@@ -1,13 +1,4 @@
 #!/bin/bash
-VERSION="v2.0"
-echo -e "\e[32mAutomatic FXServer Setup Script for Ubuntu 18.04 LTS...\e[39m"
-echo
-echo -e "\e[32mAuthor: WebGere\e[39m"
-echo -e "\e[32mWebsite: https://webgere.pt\e[39m"
-echo
-echo -e "\e[32mCurrent Version: $VERSION\e[39m"
-echo
-echo
 
 function _printUsage()
 {
@@ -355,7 +346,18 @@ function main()
     [[ $# -lt 1 ]] && _printUsage
     processArgs "$@"
 
-
+    VERSION="v2.0"
+    
+    	echo -e "\e[32mAutomatic FXServer Setup Script for Ubuntu 18.04 LTS...\e[39m"
+	echo
+	echo -e "\e[32mAuthor: WebGere\e[39m"
+	echo -e "\e[32mWebsite: https://webgere.pt\e[39m"
+	echo
+	echo -e "\e[32mCurrent Version: $VERSION\e[39m"
+	echo
+	echo
+    
+    FivemInstalation
     exit 0
 }
 
