@@ -6,7 +6,7 @@ function _printUsage()
 Fivem FxServer Installer.
 Version $VERSION
     Options:
-    	-v, --t        Fivem Version
+    	-v, --version       Fivem Version
         -h, --host       MySQL Host
         -rp, --rootpass   MySQL Root Password
         -d, --database    MySQL Database
@@ -296,7 +296,9 @@ export LANG=C
 
 DB_USER=
 DB_NAME=
-DB_PASS=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
-rootPassword=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
+DB_PASS=$(generatePassword)
+rootPassword=$(generatePassword)
+#DB_PASS=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
+#rootPassword=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
 
 main "$@"
