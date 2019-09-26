@@ -350,4 +350,13 @@ FivemInstalation() {
 	fi
 }
 
-processArgs "$@"
+function main()
+{
+    [[ $# -lt 1 ]] && _printUsage
+    processArgs "$@"
+
+
+    exit 0
+}
+
+main "$@"
