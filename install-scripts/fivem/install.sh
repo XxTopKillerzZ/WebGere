@@ -139,8 +139,8 @@ PrintFinalMessage() {
   else
     echo -e "\e[32mCompleted FXServer Setup!\e[39m"
     echo "################################################################"
-    Installed Directory: $HOME/fivem
-    Version Instaled: $VERSION_WANTED
+    echo Installed Directory: $HOME/fivem
+    echo Version Instaled: $VERSION_WANTED
     echo "################################################################"
     echo
     echo -e "Instructions to start server"
@@ -227,7 +227,18 @@ FivemInstalation() {
 		echo -e "\e[32mInstalling Tar...\e[39m"
 		sudo apt-get install -y tar
 	fi
-
+	if command -v git >/dev/null 2>&1 ; then
+		echo -e "\e[32mTar Found...\e[39m"
+	else
+		echo -e "\e[32mInstalling Git...\e[39m"
+		sudo apt-get install -y git
+	fi
+	if command -v curl >/dev/null 2>&1 ; then
+		echo -e "\e[32mTar Found...\e[39m"
+	else
+		echo -e "\e[32mInstalling Curl...\e[39m"
+		sudo apt-get install -y curl
+	fi
 
 	echo -e "\e[32mCreating Directories...\e[39m"
 	if [ ! -d "$HOME/fivem" ]; then
