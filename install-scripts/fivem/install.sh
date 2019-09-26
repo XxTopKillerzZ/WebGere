@@ -27,8 +27,12 @@ function processArgs()
         case $arg in
 	    -v=*|--version=*)
                 VERSION_WANTED="${arg#*=}"
-		if ! [[ $VERSION_WANTED =~ ^[0-9]{4}-[a-zA-Z0-9]{40}$ ]] then
-  			echo "Invalid Fivem Version"
+		#if ! [[ $VERSION_WANTED =~ ^[0-9]{4}-[a-zA-Z0-9]{40}$ ]] then
+  		#	echo "Invalid Fivem Version"
+		#	_printUsage
+		#fi
+		if ! { (curl -s "https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/" | grep "$VERSION_WANTED") && [[ $VERSION_WANTED =~ ^[0-9]{4}-[a-zA-Z0-9]{40}$ ]]; }; then
+			echo "Invalid Fivem Version"
 			_printUsage
 		fi
             ;;
