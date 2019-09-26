@@ -19,6 +19,42 @@ Version $VERSION
     exit 1
 }
 
+dependencycheck()
+{
+	echo -e "\e[32mInstalling Dependencies...\e[39m"
+	apt-get -y update
+	if command -v sudo >/dev/null 2>&1 ; then
+		echo -e "\e[32mSudo Found...\e[39m"
+	else
+		echo -e "\e[32mInstalling Sudo...\e[39m"
+		apt-get install -y sudo
+	fi
+	if command -v wget >/dev/null 2>&1 ; then
+		echo -e "\e[32mWet Found...\e[39m"
+	else
+		echo -e "\e[32mInstalling Wget...\e[39m"
+		sudo apt-get install -y wget
+	fi
+	if command -v tar >/dev/null 2>&1 ; then
+		echo -e "\e[32mTar Found...\e[39m"
+	else
+		echo -e "\e[32mInstalling Tar...\e[39m"
+		sudo apt-get install -y tar
+	fi
+	if command -v git >/dev/null 2>&1 ; then
+		echo -e "\e[32mTar Found...\e[39m"
+	else
+		echo -e "\e[32mInstalling Git...\e[39m"
+		sudo apt-get install -y git
+	fi
+	if command -v curl >/dev/null 2>&1 ; then
+		echo -e "\e[32mTar Found...\e[39m"
+	else
+		echo -e "\e[32mInstalling Curl...\e[39m"
+		sudo apt-get install -y curl
+	fi
+}
+
 function processArgs()
 {
     # Parse Arguments
@@ -61,6 +97,7 @@ function processArgs()
     elif [ -z $rootPassword ] && [ -z $DB_NAME ] && [ -z $DB_USER ] && [ -z $DB_PASS ]; then
     	wantmysql=false
     elif [[ -n $rootPassword ]] || [[ -n $DB_NAME ]] || [[ -n $DB_USER ]] || [[ -n $DB_PASS ]]; then
+        echo -e "\e[32mMysql Info Needed\e[39m"
     	_printUsage
     fi
 }
@@ -155,7 +192,6 @@ DatabaseInstall() {
 	if command -v mysql >/dev/null 2>&1 ; then
    	 echo -e "\e[32mMysql is already Installed...\e[39m"
 		echo -e "\e[32mVersion: $(mysql --version)\e[39m"
-		DatabaseCreation
 	else
     		echo -e "\e[32mInstalling Mysql...\e[39m"
 	
@@ -199,40 +235,6 @@ DatabaseCreation() {
 }
 
 FivemInstalation() {
-
-	echo -e "\e[32mInstalling Dependencies...\e[39m"
-	apt-get -y update
-	if command -v sudo >/dev/null 2>&1 ; then
-		echo -e "\e[32mSudo Found...\e[39m"
-	else
-		echo -e "\e[32mInstalling Sudo...\e[39m"
-		apt-get install -y sudo
-	fi
-	if command -v wget >/dev/null 2>&1 ; then
-		echo -e "\e[32mWet Found...\e[39m"
-	else
-		echo -e "\e[32mInstalling Wget...\e[39m"
-		sudo apt-get install -y wget
-	fi
-	if command -v tar >/dev/null 2>&1 ; then
-		echo -e "\e[32mTar Found...\e[39m"
-	else
-		echo -e "\e[32mInstalling Tar...\e[39m"
-		sudo apt-get install -y tar
-	fi
-	if command -v git >/dev/null 2>&1 ; then
-		echo -e "\e[32mTar Found...\e[39m"
-	else
-		echo -e "\e[32mInstalling Git...\e[39m"
-		sudo apt-get install -y git
-	fi
-	if command -v curl >/dev/null 2>&1 ; then
-		echo -e "\e[32mTar Found...\e[39m"
-	else
-		echo -e "\e[32mInstalling Curl...\e[39m"
-		sudo apt-get install -y curl
-	fi
-
 	echo -e "\e[32mCreating Directories...\e[39m"
 	if [ ! -d "$HOME/fivem" ]; then
 		mkdir "$HOME/fivem"
