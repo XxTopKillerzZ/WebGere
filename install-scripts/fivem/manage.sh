@@ -18,7 +18,7 @@
     MSG_off="The server is going shutdown in 10 seconds!"
 	
 # Path
-    FIVEM_PATH=/home/FiveM
+    FIVEM_PATH=/home/fivem
 
 # Screen
     SCREEN="fivem"
@@ -43,7 +43,7 @@ case "$1" in
 		echo -e "$ROUGE Restarting mysql !$NORMAL"
 		sudo service mysql restart
 		sleep 10
-        echo -e "$ORANGE The [$SCREEN] server is going to start.$NORMAL"
+        	echo -e "$ORANGE The [$SCREEN] server is going to start.$NORMAL"
 		screen -dm -S $SCREEN
 		sleep 2
 		screen -x $SCREEN -X stuff "cd "$FIVEM_PATH"/server-data && bash "$FIVEM_PATH"/server/run.sh +exec server.cfg 
@@ -55,6 +55,8 @@ case "$1" in
 		echo -e "$VERT Session Ok ! $NORMAL"
 		sleep 5
 		echo -e "$VERT Server Ok ! $NORMAL"
+		time=$(date +"%m_%d_%Y")
+		echo -n "$time -- Server Started" >> $FIVEM_PATH"/manage_log.txt
 	fi
     ;;
     # -----------------[ Stop ]------------------ #
@@ -66,9 +68,9 @@ case "$1" in
 		screen -S $SCREEN -X quit
         echo -e "$ROUGE The [$SCREEN] server has been stopped.$NORMAL"
 		sleep 5
-    echo -e "$VERT Cleaning the cache. $NORMAL"
+    	echo -e "$VERT Cleaning the cache. $NORMAL"
 		rm -R $FIVEM_PATH/server-data/cache/
-
+	echo -n "$time -- Server Stopped" >> $FIVEM_PATH"/manage_log.txt
 	else
 	    echo -e "The [$SCREEN] server is stopped."
 	fi
@@ -94,7 +96,7 @@ case "$1" in
 		echo -e "$ROUGE Restarting mysql !$NORMAL"
 		sudo service mysql restart
 		sleep 10
-        echo -e "$ORANGE [$SCREEN] is going to start.$NORMAL"
+        	echo -e "$ORANGE [$SCREEN] is going to start.$NORMAL"
 		screen -dm -S $SCREEN
 		sleep 2
 		screen -x $SCREEN -X stuff "cd "$FIVEM_PATH"/server-data && bash "$FIVEM_PATH"/server/run.sh +exec server.cfg 
@@ -104,6 +106,7 @@ case "$1" in
 		screen -x $SCREEN -X stuff "restart sessionmanager
 		"
 		echo -e "$VERT [$SCREEN] is going to stop ! $NORMAL"
+		echo -n "$time -- Server Restarted" >> $FIVEM_PATH"/manage_log.txt
 	;;	
     # -----------------[ Status ]---------------- #
 	status)
