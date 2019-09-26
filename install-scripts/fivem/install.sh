@@ -266,6 +266,11 @@ FivemInstalation() {
 	fi
 }
 
+function generatePassword()
+{
+    echo "$(openssl rand -base64 12)"
+}
+
 function main()
 {
     [[ $# -lt 1 ]] && _printUsage
@@ -285,5 +290,11 @@ function main()
     FivemInstalation
     exit 0
 }
+
+rootPassword=
+DB_NAME=
+DB_USER=
+DB_NAME=
+DB_PASS=$(generatePassword)
 
 main "$@"
