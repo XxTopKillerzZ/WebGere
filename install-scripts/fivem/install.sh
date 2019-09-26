@@ -96,11 +96,6 @@ function processArgs()
 			done
 			echo -e "\e[32mUsing $DB_NAME...\e[39m"
 		fi
-	else
-	   unset $rootPassword
-	   unset $DB_USER
-	   unset $DB_PASS
-	   unset $DB_NAME
 	fi
     else
     	wantmysql=false
