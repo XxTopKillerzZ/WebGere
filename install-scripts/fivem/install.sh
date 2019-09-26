@@ -23,33 +23,23 @@ dependencycheck()
 {
 	echo -e "\e[32mInstalling Dependencies...\e[39m"
 	apt-get -y update
-	if command -v sudo >/dev/null 2>&1 ; then
-		echo -e "\e[32mSudo Found...\e[39m"
-	else
+	if ! command -v sudo >/dev/null 2>&1 ; then
 		echo -e "\e[32mInstalling Sudo...\e[39m"
 		apt-get install -y sudo
 	fi
-	if command -v wget >/dev/null 2>&1 ; then
-		echo -e "\e[32mWet Found...\e[39m"
-	else
+	if ! command -v wget >/dev/null 2>&1 ; then
 		echo -e "\e[32mInstalling Wget...\e[39m"
 		sudo apt-get install -y wget
 	fi
-	if command -v tar >/dev/null 2>&1 ; then
-		echo -e "\e[32mTar Found...\e[39m"
-	else
+	if ! command -v tar >/dev/null 2>&1 ; then
 		echo -e "\e[32mInstalling Tar...\e[39m"
 		sudo apt-get install -y tar
 	fi
-	if command -v git >/dev/null 2>&1 ; then
-		echo -e "\e[32mTar Found...\e[39m"
-	else
+	if ! command -v git >/dev/null 2>&1 ; then
 		echo -e "\e[32mInstalling Git...\e[39m"
 		sudo apt-get install -y git
 	fi
-	if command -v curl >/dev/null 2>&1 ; then
-		echo -e "\e[32mTar Found...\e[39m"
-	else
+	if ! command -v curl >/dev/null 2>&1 ; then
 		echo -e "\e[32mInstalling Curl...\e[39m"
 		sudo apt-get install -y curl
 	fi
@@ -314,6 +304,7 @@ function generatePassword()
 function main()
 {
     	[[ $# -lt 1 ]] && _printUsage
+	dependencycheck
     	processArgs "$@"
 
     	VERSION="v2.0"
@@ -326,7 +317,6 @@ function main()
 	echo -e "\e[32mCurrent Version: $VERSION\e[39m"
 	echo
 	echo
-    	dependencycheck
     	FivemInstalation
     	exit 0
 }
