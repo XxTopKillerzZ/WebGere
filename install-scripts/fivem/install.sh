@@ -313,10 +313,10 @@ function generatePassword()
 
 function main()
 {
-    [[ $# -lt 1 ]] && _printUsage
-    processArgs "$@"
+    	[[ $# -lt 1 ]] && _printUsage
+    	processArgs "$@"
 
-    VERSION="v2.0"
+    	VERSION="v2.0"
     
     	echo -e "\e[32mAutomatic FXServer Setup Script for Ubuntu 18.04 LTS...\e[39m"
 	echo
@@ -326,9 +326,9 @@ function main()
 	echo -e "\e[32mCurrent Version: $VERSION\e[39m"
 	echo
 	echo
-    
-    FivemInstalation
-    exit 0
+    	dependencycheck
+    	FivemInstalation
+    	exit 0
 }
 
 export LC_CTYPE=C
