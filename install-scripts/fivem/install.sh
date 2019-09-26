@@ -1,4 +1,13 @@
 #!/bin/bash
+_bold=$(tput bold)
+_underline=$(tput sgr 0 1)
+_reset=$(tput sgr0)
+
+_purple=$(tput setaf 171)
+_red=$(tput setaf 1)
+_green=$(tput setaf 76)
+_tan=$(tput setaf 3)
+_blue=$(tput setaf 38)
 
 function _error() {
     printf "${_red}✖ %s${_reset}\n" "$@"
