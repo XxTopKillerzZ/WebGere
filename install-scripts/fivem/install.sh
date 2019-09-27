@@ -228,8 +228,8 @@ DatabaseInstall() {
 		sudo apt-get -qq update
 
 		# Install MariaDB without password prompted
-		sudo debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password password $ROOT_PASSWORD"
-		sudo debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password_again password $ROOT_PASSWORD"
+		sudo debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password password $rootPassword"
+		sudo debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password_again password $rootPassword"
 
 		# Install MariaDB
 		# -qq implies -y --force-yes
