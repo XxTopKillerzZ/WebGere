@@ -39,7 +39,7 @@ Version $VERSION
 
 dependencycheck()
 {
-	echo -e "\e[32mInstalling Dependencies...\e[39m"
+	echo -e "\e[32mChecking Dependencies...\e[39m"
 	apt-get -y -qq update
 	if ! command -v sudo >/dev/null 2>&1 ; then
 		echo -e "\e[32mInstalling Sudo...\e[39m"
