@@ -56,7 +56,7 @@ case "$1" in
 		sleep 5
 		echo -e "$VERT Server Ok ! $NORMAL"
 		time=$(date +"%m_%d_%Y")
-		echo -n "$time -- Server Started" >> $FIVEM_PATH"/manage_log.txt
+		echo -n "$time -- Server Started" >> $FIVEM_PATH/manage_log.txt
 	fi
     ;;
     # -----------------[ Stop ]------------------ #
@@ -64,13 +64,13 @@ case "$1" in
 	if ( running )
 	then
 		echo -e "$VERT The server will stop in 10 seconds. $NORMAL"
-        screen -S $SCREEN -p 0 -X stuff "`printf "say $MSG_off\r"`"; sleep 10
+        	screen -S $SCREEN -p 0 -X stuff "`printf "say $MSG_off\r"`"; sleep 10
 		screen -S $SCREEN -X quit
-        echo -e "$ROUGE The [$SCREEN] server has been stopped.$NORMAL"
+        	echo -e "$ROUGE The [$SCREEN] server has been stopped.$NORMAL"
 		sleep 5
-    	echo -e "$VERT Cleaning the cache. $NORMAL"
+    		echo -e "$VERT Cleaning the cache. $NORMAL"
 		rm -R $FIVEM_PATH/server-data/cache/
-	echo -n "$time -- Server Stopped" >> $FIVEM_PATH"/manage_log.txt
+		echo -n "$time -- Server Stopped" >> $FIVEM_PATH/manage_log.txt
 	else
 	    echo -e "The [$SCREEN] server is stopped."
 	fi
@@ -106,7 +106,7 @@ case "$1" in
 		screen -x $SCREEN -X stuff "restart sessionmanager
 		"
 		echo -e "$VERT [$SCREEN] is going to stop ! $NORMAL"
-		echo -n "$time -- Server Restarted" >> $FIVEM_PATH"/manage_log.txt
+		echo -n "$time -- Server Restarted" >> $FIVEM_PATH/manage_log.txt
 	;;	
     # -----------------[ Status ]---------------- #
 	status)
