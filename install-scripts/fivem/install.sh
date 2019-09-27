@@ -118,11 +118,13 @@ PrintFinalMessage() {
     Installed Directory: $HOME/fivem
     Version Instaled: $VERSION_WANTED
     ################################################################
-    Instructions to start server:
+    Instructions to manage the server:
     
-    cd $HOME/fivem/server-data
-    Edit server.cfg
-    bash $HOME/fivem/server/run.sh +exec server.cfg
+    'manage start' : start server
+    'manage stop' : stop server
+    'manage restart' : restart server
+    'manage screen' : connect to the screen (console)
+    'manage status' : server status
     ################################################################
     Mysql host: $ip
     Mysql Root Password: 3306
@@ -138,10 +140,13 @@ PrintFinalMessage() {
     echo "Version Instaled: $VERSION_WANTED"
     echo "################################################################"
     echo
-    echo -e "Instructions to start server"
-    echo "1. 'cd $HOME/fivem/server-data'"
-    echo "2. 'Edit server.cfg'"
-    echo "3. 'bash $HOME/fivem/server/run.sh +exec server.cfg'"
+    echo -e "Instructions to manage the server:"
+    echo
+    echo "'manage start' : start server"
+    echo "'manage stop' : stop server"
+    echo "'manage restart' : restart server"
+    echo "'manage screen' : connect to the screen (console)"
+    echo "'manage status' : server status"
     echo
     echo "################################################################"
     echo
@@ -167,11 +172,13 @@ PrintFinalMessage() {
     Installed Directory: $HOME/fivem
     Version Instaled: $VERSION_WANTED
     ################################################################
-    Instructions to start server:
+    Instructions to manage the server:
     
-    cd $HOME/fivem/server-data
-    Edit server.cfg
-    bash $HOME/fivem/server/run.sh +exec server.cfg
+    'manage start' : start server
+    'manage stop' : stop server
+    'manage restart' : restart server
+    'manage screen' : connect to the screen (console)
+    'manage status' : server status
     ################################################################" > $HOME/fivem/install_log.txt
   
   
@@ -181,10 +188,13 @@ PrintFinalMessage() {
     echo "Version Instaled: $VERSION_WANTED"
     echo "################################################################"
     echo
-    echo -e "Instructions to start server"
-    echo "1. 'cd $HOME/fivem/server-data'"
-    echo "2. 'Edit server.cfg'"
-    echo "3. 'bash $HOME/fivem/server/run.sh +exec server.cfg'"
+    echo -e "Instructions to manage the server:"
+    echo
+    echo "'manage start' : start server"
+    echo "'manage stop' : stop server"
+    echo "'manage restart' : restart server"
+    echo "'manage screen' : connect to the screen (console)"
+    echo "'manage status' : server status"
     echo
     echo "################################################################"
     echo
