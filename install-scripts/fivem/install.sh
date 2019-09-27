@@ -117,7 +117,7 @@ PrintFinalMessage() {
     echo "################################################################
     Installed Directory: $HOME/fivem
     Version Instaled: $VERSION_WANTED
-    ################################################################
+################################################################
     Instructions to manage the server:
     
     'manage start' : start server
@@ -125,14 +125,14 @@ PrintFinalMessage() {
     'manage restart' : restart server
     'manage screen' : connect to the screen (console)
     'manage status' : server status
-    ################################################################
+################################################################
     Mysql host: $ip
     Mysql Root Password: 3306
     Mysql Port: $rootPassword
     Database Username: $DB_USER
     Database Password: $DB_PASS
     Database Name: $DB_NAME
-    ################################################################" > $HOME/fivem/install_log.txt
+################################################################" > $HOME/fivem/install_log.txt
     
     echo -e "\e[32mCompleted FXServer Setup!\e[39m"
     echo "################################################################"
@@ -171,7 +171,7 @@ PrintFinalMessage() {
     echo "################################################################
     Installed Directory: $HOME/fivem
     Version Instaled: $VERSION_WANTED
-    ################################################################
+################################################################
     Instructions to manage the server:
     
     'manage start' : start server
@@ -179,7 +179,7 @@ PrintFinalMessage() {
     'manage restart' : restart server
     'manage screen' : connect to the screen (console)
     'manage status' : server status
-    ################################################################" > $HOME/fivem/install_log.txt
+################################################################" > $HOME/fivem/install_log.txt
   
   
     echo -e "\e[32mCompleted FXServer Setup!\e[39m"
