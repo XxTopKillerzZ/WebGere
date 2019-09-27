@@ -360,10 +360,8 @@ export LANG=C
 
 DB_USER=
 DB_NAME=
-DB_PASS=$(generatePassword)
+DB_PASS=$(openssl rand -base64 12)
 rootPassword=$DB_PASS
-#DB_PASS=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
-#rootPassword=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
 
 HOME=/home
 
