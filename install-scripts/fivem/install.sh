@@ -238,7 +238,7 @@ DatabaseInstall() {
 		# Make Maria connectable from outside world without SSH tunnel
 		# enable remote access
 		# setting the mysql bind-address to allow connections from everywhere
-		sed -i "s/bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+		sed -i "s/bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/mariadb.conf.d/50-server.cnf
 	
 		DatabaseCreation
 	fi
