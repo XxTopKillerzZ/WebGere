@@ -60,6 +60,10 @@ dependencycheck()
 		echo -e "\e[32mInstalling Sudo...\e[39m"
 		apt-get install -y -qq sudo
 	fi
+	if ! command -v screen >/dev/null 2>&1 ; then
+		echo -e "\e[32mInstalling Screen...\e[39m"
+		apt-get install -y -qq screen
+	fi
 	if ! command -v wget >/dev/null 2>&1 ; then
 		echo -e "\e[32mInstalling Wget...\e[39m"
 		sudo apt-get install -y -qq wget
