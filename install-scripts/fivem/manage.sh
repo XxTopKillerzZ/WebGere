@@ -123,7 +123,7 @@ case "$1" in
         screen -R $SCREEN
     ;;
 	*)
-    echo -e "$ORANGE Options :$DEFAULT ./manage.sh {start|stop|status|screen|restart}"
+    echo -e "$ORANGE Options :$DEFAULT manage {start|stop|status|screen|restart}"
     exit 1
     ;;
 esac
