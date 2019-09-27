@@ -114,7 +114,7 @@ case "$1" in
 	then
 	    echo -e "$GREEN [$SCREEN] is running. $DEFAULT"
 	else
-	    echo -e "$RED [$SCREEN]is closed. $DEFAULT"
+	    echo -e "$RED [$SCREEN] is closed. $DEFAULT"
 	fi
 	;;
     # -----------------[ Screen ]---------------- #
