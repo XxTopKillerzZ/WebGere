@@ -365,4 +365,6 @@ rootPassword=$(generatePassword)
 #DB_PASS=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
 #rootPassword=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
 
+HOME=/home
+
 main "$@"
