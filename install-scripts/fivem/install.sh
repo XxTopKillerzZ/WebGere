@@ -273,7 +273,7 @@ FivemInstalation() {
 	if [ ! -f "$HOME/fivem/server/version_wanted.log" ]; then
 		touch "$HOME/fivem/server/version_wanted.log"
 	fi
-	if [ "$(head -n 1 $HOME/fivem/server/version_wanted.log)" != $VERSION_WANTED ]; then
+	if [ "$(head -n 1 $HOME/fivem/server/version_installed.log)" != $VERSION_WANTED ]; then
 		echo -e "\e[32mDownloading $VERSION_WANTED...\e[39m"
 		wget -q --show-progress "https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/$VERSION_WANTED/fx.tar.xz" -P "$HOME/fivem/temp"
 		echo Finished downloading FXServer
@@ -281,10 +281,10 @@ FivemInstalation() {
 		echo -e "\e[93mIgnore warning/error below\e[39m"
 		tar -xf "$HOME/fivem/temp/fx.tar.xz" -C "$HOME/fivem/server"
 		echo Done decompressing FXServer
-		echo $VERSION_WANTED > "$HOME/fivem/server/version_wanted.log"
+		echo $VERSION_WANTED > "$HOME/fivem/server/version_installed.log"
 		echo -e "\e[32mSuccessfully installed new FXServer build version $VERSION_WANTED\e[39m"
 	else
-		echo Skipping FXServer, you already have the latest build
+		echo Skipping FXServer, you already have the build: $VERSION_WANTED
 	fi
 
 	if [ ! -d "$HOME/fivem/server-data/resources" ]; then
@@ -302,6 +302,10 @@ FivemInstalation() {
 	else
 		echo Found existing server.cfg, skipping creating server.cfg
 	fi
+	
+	wget -q --show-progress https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/fivem/manage.sh -P "$HOME/fivem"
+	chmod a+x $HOME/fivem/manage.sh
+	cp $HOME/fivem/manage.sh /usr/bin/manage
 
 
 	rm -rf "$HOME/fivem/temp"
