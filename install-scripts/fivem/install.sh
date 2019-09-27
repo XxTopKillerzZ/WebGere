@@ -38,9 +38,24 @@ Version $VERSION
 }
 
 dependencycheck()
-{
+{	 
 	echo -e "\e[32mChecking Dependencies...\e[39m"
 	apt-get -y -qq update
+	
+	ETC_HOSTS=/etc/hosts
+	IP="127.0.0.1"
+    	HOSTS_LINE="$IP\t$HOSTNAME"
+    	if ! [ -n "$(grep $HOSTNAME /etc/hosts)" ]
+        then
+          	 echo "Adding $HOSTNAME to your $ETC_HOSTS";
+          	 sudo -- sh -c -e "echo '$HOSTS_LINE' >> /etc/hosts";
+
+          	 if ! [ -n "$(grep $HOSTNAME /etc/hosts)" ]
+              	 then
+                 	_error "Your hosts file as a error."
+            	 fi
+   	fi
+	
 	if ! command -v sudo >/dev/null 2>&1 ; then
 		echo -e "\e[32mInstalling Sudo...\e[39m"
 		apt-get install -y -qq sudo
@@ -61,20 +76,6 @@ dependencycheck()
 		echo -e "\e[32mInstalling Curl...\e[39m"
 		sudo apt-get install -y -qq curl
 	fi
-	
-	ETC_HOSTS=/etc/hosts
-	IP="127.0.0.1"
-    	HOSTS_LINE="$IP\t$HOSTNAME"
-    	if ! [ -n "$(grep $HOSTNAME /etc/hosts)" ]
-        then
-          	 echo "Adding $HOSTNAME to your $ETC_HOSTS";
-          	 sudo -- sh -c -e "echo '$HOSTS_LINE' >> /etc/hosts";
-
-          	 if ! [ -n "$(grep $HOSTNAME /etc/hosts)" ]
-              	 then
-                 	_error "Your hosts file as a error."
-            	 fi
-   	 fi
 }
 
 function processArgs()
