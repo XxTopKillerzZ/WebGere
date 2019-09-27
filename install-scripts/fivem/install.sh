@@ -249,7 +249,7 @@ DatabaseInstall() {
 }
 
 DatabaseCreation() {
-	echo -e "\e[32mStarting databse creation...\e[39m"	
+	echo -e "\e[32mStarting database creation...\e[39m"	
        	wget https://raw.githubusercontent.com/XxTopKillerzZ/WebGere/master/install-scripts/mariadb/create-database.sh -v -O create-database.sh && bash ./create-database.sh --host=localhost --database=$DB_NAME --user=$DB_USER --pass=$DB_PASS --rootpass=$rootPassword; rm -rf create-database.sh
 	PrintFinalMessage
 }
@@ -361,7 +361,7 @@ export LANG=C
 DB_USER=
 DB_NAME=
 DB_PASS=$(generatePassword)
-rootPassword=$(generatePassword)
+rootPassword=$DB_PASS
 #DB_PASS=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
 #rootPassword=$(date +%s | sha256sum | base64 | head -c 14 ; echo)
 
