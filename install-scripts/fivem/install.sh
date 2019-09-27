@@ -280,8 +280,8 @@ FivemInstalation() {
 	fi
 	echo -e "\e[32mDone creating directories.\e[39m"
 
-	if [ ! -f "$HOME/fivem/server/version_wanted.log" ]; then
-		touch "$HOME/fivem/server/version_wanted.log"
+	if [ ! -f "$HOME/fivem/server/version_installed.log" ]; then
+		touch "$HOME/fivem/server/version_installed.log"
 	fi
 	if [ "$(head -n 1 $HOME/fivem/server/version_installed.log)" != $VERSION_WANTED ]; then
 		echo -e "\e[32mDownloading $VERSION_WANTED...\e[39m"
