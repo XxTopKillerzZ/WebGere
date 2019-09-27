@@ -127,8 +127,8 @@ PrintFinalMessage() {
     'manage status' : server status
 ################################################################
     Mysql host: $ip
-    Mysql Root Password: 3306
-    Mysql Port: $rootPassword
+    Mysql Port: 3306
+    Mysql Root Password: $rootPassword
     Database Username: $DB_USER
     Database Password: $DB_PASS
     Database Name: $DB_NAME
@@ -155,8 +155,8 @@ PrintFinalMessage() {
     echo "################################################################"
     echo
     echo "Mysql host: $ip"
-    echo "Mysql Port: $rootPassword"
-    echo "Mysql Root Password: 3306"
+    echo "Mysql Port: 3306"
+    echo "Mysql Root Password: $rootPassword"
     echo "Database Username: $DB_USER"
     echo "Database Password: $DB_PASS"
     echo "Database Name: $DB_NAME"
